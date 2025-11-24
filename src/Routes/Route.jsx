@@ -6,8 +6,8 @@ import AddArtwork from "../Pages/AddArtwork";
 import MyGallery from "../Pages/MyGallery";
 import MyFavorite from "../Pages/MyFavorite";
 import NotFoundError from "../Pages/NotFoundError";
-import LogIn from './../Pages/LogIn';
-import Register from './../Pages/Register';
+import LogIn from "./../Pages/LogIn";
+import Register from "./../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
@@ -25,34 +25,40 @@ export const router = createBrowserRouter([
       },
       {
         path: "addArtwork",
-        element: <PrivateRoute>
-          <AddArtwork />
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddArtwork />
+          </PrivateRoute>
+        ),
       },
       {
         path: "myGallery",
-        element:<PrivateRoute>
-           <MyGallery />
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyGallery />
+          </PrivateRoute>
+        ),
       },
       {
         path: "myFavorites",
-        element: <PrivateRoute>
-          <MyFavorite />
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyFavorite />
+          </PrivateRoute>
+        ),
       },
       {
-        path: 'login',
+        path: "login",
         Component: LogIn,
       },
       {
-        path: 'register',
-        Component: Register
-      },
-      {
-        path: "*",
-        Component: NotFoundError,
+        path: "register",
+        Component: Register,
       },
     ],
+  },
+  {
+    path: "*",
+    Component: NotFoundError,
   },
 ]);
