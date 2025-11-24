@@ -8,6 +8,7 @@ import MyFavorite from "../Pages/MyFavorite";
 import NotFoundError from "../Pages/NotFoundError";
 import LogIn from './../Pages/LogIn';
 import Register from './../Pages/Register';
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -24,15 +25,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "addArtwork",
-        element: <AddArtwork />
+        element: <PrivateRoute>
+          <AddArtwork />
+        </PrivateRoute>
       },
       {
         path: "myGallery",
-        element: <MyGallery />
+        element:<PrivateRoute>
+           <MyGallery />
+        </PrivateRoute>
       },
       {
         path: "myFavorites",
-        element: <MyFavorite />
+        element: <PrivateRoute>
+          <MyFavorite />
+        </PrivateRoute>
       },
       {
         path: 'login',
