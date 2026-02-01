@@ -1,18 +1,33 @@
-import React, { use } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
-import { TbLogout } from "react-icons/tb";
 
 const NavBar = () => {
   const { users, signOutUser } = use(AuthContext);
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleLogOut = () => {
     signOutUser()
-      .then(() => {})
+      .then(() => {
+        setOpen(false);
+      })
       .catch((error) => {
         console.log(error.message);
       });
   };
+  useEffect(()=>{
+    const handleClickOutSide = (e) =>{
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutSide)
+
+    return ()=>{
+      document.removeEventListener('mousedown', handleClickOutSide)
+    }
+  },[])
   const links = (
     <>
       <li>
@@ -57,16 +72,6 @@ const NavBar = () => {
               My Gallery
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/myFavorites"
-              className={({ isActive }) =>
-                `btn-sm ${isActive ? "text-blue-500 font-bold" : ""}`
-              }
-            >
-              My Favorite
-            </NavLink>
-          </li>
         </>
       )}
     </>
@@ -99,30 +104,53 @@ const NavBar = () => {
             {links}
           </ul>
         </div>
-        <h2 className="font-bold text-2xl">Artevo</h2>
+        <h2 className="font-bold text-xl md:text-2xl ">Artevo</h2>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
         {users ? (
-          <div className="flex gap-4 items-center">
+          <div className="relative" ref={dropdownRef} onClick={() => setOpen(!open)}>
+            {/* Avatar */}
+            <img
+              src={users?.photoURL}
+              alt={users?.displayName}
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full cursor-pointer border-2 border-blue-500"
+            />
+            {/* dropdown */}
             <div
-              className="tooltip tooltip-bottom"
-              data-tip={users?.displayName || "user"}
+              className={`absolute right-0 w-50 md:w-58 bg-white shadow-lg rounded-md z-50  ${open ? "opacity-100 visible " : "opacity-0 invisible "}`}
             >
-              <img
-                className="w-8 h-8 md:w-12 md:h-12 rounded-full"
-                src={users?.photoURL}
-                alt={users?.displayName}
-              />
+              {/* display name */}
+              <div className="px-2 py-2 border-b">
+                <p className="text-sm font-semibold text-gray-700">
+                  {users?.displayName || "User"}
+                </p>
+              </div>
+              {/* email*/}
+              <div className="px-2 py-2 w-full border-b">
+                <p className="text-sm text-gray-700">
+                  {users?.email || "example@gmail.com"}
+                </p>
+              </div>
+              {/* my favorite page */}
+
+              <Link
+                to={"/myFavorites"}
+                onClick={()=> setOpen(false)}
+                className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                My Favorite
+              </Link>
+              {/* log out */}
+              <button
+                onClick={handleLogOut}
+                className="w-full flex justify-center gap-2 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-400"
+              >
+                Log Out
+              </button>
             </div>
-            <button
-              onClick={handleLogOut}
-              className="cursor-pointer text-sm md:text-lg text-white bg-linear-to-r btn-primary px-1 py-1 md:px-3 md:py-3 rounded-md flex gap-1 md:gap-2  items-center"
-            >
-              LogOut <TbLogout size={26} />{" "}
-            </button>
           </div>
         ) : (
           <div className="flex gap-3">
