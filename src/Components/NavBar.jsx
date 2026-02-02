@@ -6,6 +6,7 @@ const NavBar = () => {
   const { users, signOutUser } = use(AuthContext);
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const handleLogOut = () => {
     signOutUser()
@@ -16,18 +17,24 @@ const NavBar = () => {
         console.log(error.message);
       });
   };
-  useEffect(()=>{
-    const handleClickOutSide = (e) =>{
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    const handleClickOutSide = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
       }
-    }
-    document.addEventListener('mousedown', handleClickOutSide)
+    };
+    document.addEventListener("mousedown", handleClickOutSide);
 
-    return ()=>{
-      document.removeEventListener('mousedown', handleClickOutSide)
-    }
-  },[])
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  }, [theme]);
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
   const links = (
     <>
       <li>
@@ -111,45 +118,57 @@ const NavBar = () => {
       </div>
       <div className="navbar-end">
         {users ? (
-          <div className="relative" ref={dropdownRef} onClick={() => setOpen(!open)}>
-            {/* Avatar */}
-            <img
-              src={users?.photoURL}
-              alt={users?.displayName}
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full cursor-pointer border-2 border-blue-500"
+          <div className="flex items-center gap-3 cursor-pointer">
+            <input
+              onChange={(e) => handleTheme(e.target.checked)}
+              type="checkbox"
+              checked={theme === "dark"}
+              className="toggle"
             />
-            {/* dropdown */}
             <div
-              className={`absolute right-0 w-50 md:w-58 bg-white shadow-lg rounded-md z-50  ${open ? "opacity-100 visible " : "opacity-0 invisible "}`}
+              className="relative"
+              ref={dropdownRef}
+              onClick={() => setOpen(!open)}
             >
-              {/* display name */}
-              <div className="px-2 py-2 border-b">
-                <p className="text-sm font-semibold text-gray-700">
-                  {users?.displayName || "User"}
-                </p>
-              </div>
-              {/* email*/}
-              <div className="px-2 py-2 w-full border-b">
-                <p className="text-sm text-gray-700">
-                  {users?.email || "example@gmail.com"}
-                </p>
-              </div>
-              {/* my favorite page */}
+              {/* Avatar */}
+              <img
+                src={users?.photoURL}
+                alt={users?.displayName}
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full cursor-pointer border-2 border-blue-500"
+              />
+              {/* dropdown */}
+              <div
+                className={`absolute right-0 w-50 md:w-58 bg-white shadow-lg rounded-md z-50  ${open ? "opacity-100 visible " : "opacity-0 invisible "}`}
+              >
+                {/* display name */}
+                <div className="px-2 py-2 border-b">
+                  <p className="text-sm font-semibold text-gray-700">
+                    {users?.displayName || "User"}
+                  </p>
+                </div>
+                {/* email*/}
+                <div className="px-2 py-2 w-full border-b">
+                  <p className="text-sm text-gray-700">
+                    {users?.email || "example@gmail.com"}
+                  </p>
+                </div>
+                {/* my favorite page */}
 
-              <Link
-                to={"/myFavorites"}
-                onClick={()=> setOpen(false)}
-                className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                My Favorite
-              </Link>
-              {/* log out */}
-              <button
-                onClick={handleLogOut}
-                className="w-full flex justify-center gap-2 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-400"
-              >
-                Log Out
-              </button>
+                <Link
+                  to={"/myFavorites"}
+                  onClick={() => setOpen(false)}
+                  className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  My Favorite
+                </Link>
+                {/* log out */}
+                <button
+                  onClick={handleLogOut}
+                  className="w-full flex justify-center gap-2 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-400"
+                >
+                  Log Out
+                </button>
+              </div>
             </div>
           </div>
         ) : (

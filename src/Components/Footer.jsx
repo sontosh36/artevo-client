@@ -12,19 +12,19 @@ import { TiSocialLinkedin } from "react-icons/ti";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gray-800 text-gray-500">
       <div className="w-11/12 mx-auto py-13 flex flex-col justify-between md:flex-row gap-9 md:gap-16">
         <nav className="flex-1">
           {/* website Biography */}
-          <h2 className="text-2xl font-bold text-white">Artevo</h2>
-          <p className="mt-3 text-sm leading-relaxed">
+          <h2 className="text-2xl font-bold text-gray-400">Artevo</h2>
+          <p className="mt-4 text-sm leading-relaxed">
             A creative platform to showcase and discover amazing artworks from
             talented artists around the world.
           </p>
         </nav>
         {/* contact info */}
         <nav className="flex-1">
-          <h3 className="text-lg font-semibold text-white mb-4">
+          <h3 className="text-xl font-semibold mb-4 text-gray-400">
             Contact Info
           </h3>
           <p className="flex gap-2 text-sm">
@@ -39,9 +39,7 @@ const Footer = () => {
           </p>
         </nav>
         <nav className="flex-1">
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Social Links
-          </h3>
+          <h3 className={`text-xl text-gray-400 font-semibold mb-4`}>Social Links</h3>
           <div className=" flex items-center gap-4 mt-2">
             <a href="#">
               <FaInstagram size={20} />
@@ -62,8 +60,11 @@ const Footer = () => {
         </nav>
       </div>
       {/* copyright */}
-      <div className="border-t border-gray-700 text-center py-4 text-sm">
-        <p className="text-gray-500"> &copy; {new Date().getFullYear()} Artevo. All rights reserved. </p>
+      <div className="border-t border-gray-400 text-center py-4 text-sm">
+        <p className="text-gray-500">
+          {" "}
+          &copy; {new Date().getFullYear()} Artevo. All rights reserved.{" "}
+        </p>
       </div>
     </footer>
   );
