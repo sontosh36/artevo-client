@@ -9,6 +9,7 @@ import NotFoundError from "../Pages/NotFoundError";
 import LogIn from "./../Pages/LogIn";
 import Register from "./../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
+import ArtworkDetails from "../Components/ArtworkDetails";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             <MyFavorite />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "artworkDetails/:id",
+        Component: ArtworkDetails,
       },
       {
         path: "login",
