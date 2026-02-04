@@ -11,7 +11,8 @@ const ArtworkDetails = () => {
     description,
     totalArtwork,
     artistPhoto,
-    medium
+    medium,
+    likes
   } = artworkData;
 
   return (
@@ -23,17 +24,17 @@ const ArtworkDetails = () => {
           <img
             src={imageURL}
             alt={title}
-            className="h-70 w-200 object-cover transition-transform duration-300 hover:scale-105"
+            className="h-80 w-200 object-fill transition-transform duration-300 hover:scale-105"
           />
         </div>
 
         {/* Artwork Info */}
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold sm:text-4xl pb-6 border-b mb-4">
+          <h1 className="text-center md:text-left text-3xl font-semibold md:text-4xl pb-6 border-b mb-4">
             {title}
           </h1>
 
-          <div className="flex gap-6">
+          <div className="flex gap-11 md:gap-6">
             <div className="mb-6">
               <p className=" text-sm font-medium">Category: {category}</p>
             </div>
@@ -41,12 +42,13 @@ const ArtworkDetails = () => {
               <p className="text-sm font-medium">Medium: {medium}</p>
             </div>
           </div>
-          <div>
-            <h5 className="font-medium text-lg">Description</h5>
+          <div className="mb-3">
+            <h5 className="font-medium text-lg mb-2">Description</h5>
             <p className="text-sm leading-relaxed">{description}</p>
           </div>
+          <p>Like: {likes}</p>
           {/* Actions */}
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-10 md:gap-4">
             <button className="rounded-lg bg-purple-600 text-white px-6 py-3 cursor-pointer">
               Like
             </button>

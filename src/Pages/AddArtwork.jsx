@@ -1,9 +1,11 @@
 import React, { use } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const AddArtwork = () => {
   const { users } = use(AuthContext);
+  const navigate = useNavigate();
   const handleAddArtwork = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -16,7 +18,6 @@ const AddArtwork = () => {
     const userName = e.target.userName.value;
     const userEmail = e.target.userEmail.value;
     const visibility = e.target.visibility.value;
-    //console.log({title, photo, category, price, medium, description, dimension, userName, userEmail, visibility});
 
     const newArtWork = {
       imageURL: photo,
@@ -51,6 +52,8 @@ const AddArtwork = () => {
             confirmButtonColor: "#2563eb",
           });
         }
+        e.target.reset();
+        navigate("/exploreArtwork");
       })
       .catch((err) => {
         console.log(err);
