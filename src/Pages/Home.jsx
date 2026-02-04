@@ -7,9 +7,9 @@ const featuredArtworksPromise = fetch(
 ).then((res) => res.json());
 const Home = () => {
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="max-w-7xl mx-auto px-4">
       <Hero />
-      <Suspense fallback={"loading..."}>
+      <Suspense fallback={"loading loading-dots"}>
         <FeaturedArtworks featuredArtworksPromise={featuredArtworksPromise} />
       </Suspense>
     </div>

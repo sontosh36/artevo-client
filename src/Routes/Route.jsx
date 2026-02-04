@@ -50,7 +50,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "artworkDetails/:id",
-        Component: ArtworkDetails,
+        loader: ({params}) => fetch(`http://localhost:3000/artwork/${params.id}`),
+        element:(
+          <PrivateRoute>
+            <ArtworkDetails/>
+          </PrivateRoute>
+        )
       },
       {
         path: "login",
