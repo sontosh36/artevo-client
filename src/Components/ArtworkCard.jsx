@@ -12,13 +12,13 @@ const ArtworkCard = ({ artwork }) => {
           className="w-full h-48 object-cover rounded-xl"
         />
       </figure>
-      <div className="card-body text-center">
+      <div className="w-full card-body text-center">
         <h2 className="card-title justify-center">{title}</h2>
         <div className="flex justify-between gap-2 mb-2 leading-relaxed">
             <p className="text-xs">Artist: {artistName}</p>
             <p className="text-xs">Category: {category}</p>
         </div>
-        <Link to={`artworkDetails/${_id}`} className="card-actions">
+        <Link to={`/artworkDetails/${_id}`} className="card-actions">
           <button className="btn btn-primary w-full">View Details</button>
         </Link>
       </div>
