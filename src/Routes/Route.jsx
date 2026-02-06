@@ -10,6 +10,7 @@ import LogIn from "./../Pages/LogIn";
 import Register from "./../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import ArtworkDetails from "../Components/ArtworkDetails";
+import UpdateArrtwork from "../Pages/UpdateArrtwork";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,11 @@ export const router = createBrowserRouter([
             <ArtworkDetails/>
           </PrivateRoute>
         )
+      },
+      {
+        path: "/update-artwork/:id",
+        Component: UpdateArrtwork,
+        loader: ({params}) => fetch(`http://localhost:3000/artwork/${params.id}`)
       },
       {
         path: "login",

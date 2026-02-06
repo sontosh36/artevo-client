@@ -3,10 +3,9 @@ import { AuthContext } from "../Context/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const LogIn = () => {
-  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { signInUser, signInWithGoogle } = use(AuthContext);
   const location = useLocation();
@@ -15,7 +14,6 @@ const LogIn = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    setError("");
 
     signInUser(email, password)
       .then(() => {
@@ -23,7 +21,22 @@ const LogIn = () => {
         navigate(location.state || "/");
       })
       .catch((err) => {
-        setError(err.message);
+        let errorMessage = "Something went wrong!";
+
+        if (err.code === "auth/user-not-found") {
+          errorMessage = "No user found with this email";
+        } else if (err.code === "auth/wrong-password") {
+          errorMessage = "Incorrect password 🔒";
+        } else if (err.code === "auth/invalid-credential") {
+          errorMessage = "Email or password is incorrect!";
+        }
+
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: errorMessage,
+          confirmButtonColor: "#3085d6",
+        });
       });
   };
 
@@ -31,14 +44,18 @@ const LogIn = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
-  const forgetPass = () => {};
+
   const handleSignInGoogle = () => {
     signInWithGoogle()
       .then(() => {
         navigate(location.state || "/");
       })
       .catch((err) => {
-        toast.warn(err.message);
+        Swal.fire({
+          icon: "error",
+          title: "Google Sign-in Failed",
+          text: err.message,
+        });
       });
   };
   return (
@@ -52,7 +69,7 @@ const LogIn = () => {
               <input
                 type="email"
                 name="email"
-                className="input w-full"
+                className="input outline-0 w-full"
                 placeholder="Email"
               />
               <label className="label">Password</label>
@@ -72,16 +89,14 @@ const LogIn = () => {
                 </button>
               </div>
               <div>
-                <button onClick={forgetPass} className="link link-hover">
-                  Forgot password?
-                </button>
+                <button className="link link-hover">Forgot password?</button>
               </div>
               <button className="btn bg-blue-500 text-white font-semibold mt-4">
                 Login
               </button>
             </fieldset>
           </form>
-           <div className="divider">OR</div>
+          <div className="divider">OR</div>
           <button
             onClick={handleSignInGoogle}
             className="mt-2 btn bg-white text-black border-[#e5e5e5]"
@@ -90,7 +105,6 @@ const LogIn = () => {
             Sign In with Google
           </button>
 
-          {error && <p className="text-red-500">{error}</p>}
           <p className="mt-2">
             New to our Website? Please{" "}
             <Link className="text-blue-500 hover:underline" to="/register">
