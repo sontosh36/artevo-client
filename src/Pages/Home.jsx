@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Hero from "../Components/Hero";
 import FeaturedArtworks from "../Components/FeaturedArtworks";
+import CommunityPost from "../Components/CommunityPost";
 import FeaturedArtists from "../Components/FeaturedArtists";
 
 const Home = () => {
@@ -13,7 +14,8 @@ const Home = () => {
       <Suspense fallback={<span className="loading loading-dots"></span>}>
         <FeaturedArtworks featuredArtworksPromise={featuredArtworksPromise} />
       </Suspense>
-       <FeaturedArtists></FeaturedArtists>
+      <FeaturedArtists />
+      <CommunityPost />
     </div>
   );
 };
