@@ -1,5 +1,6 @@
 import React from "react";
 import { useLoaderData } from "react-router";
+import { toast } from "react-toastify";
 
 const ArtworkDetails = () => {
   const artworkData = useLoaderData();
@@ -12,8 +13,23 @@ const ArtworkDetails = () => {
     totalArtwork,
     artistPhoto,
     medium,
-    likes
+    likes,
   } = artworkData;
+
+  const handleFavorite = () => {
+    const prevFavorites =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    const isAlreadyAdded = prevFavorites.find(
+      (item) => item.title === title,
+    );
+    if (!isAlreadyAdded) {
+      prevFavorites.push(artworkData);
+      localStorage.setItem("favorites", JSON.stringify(prevFavorites));
+      toast.success("Added to Favorite");
+    } else {
+      toast.warn("Already in Favorite!");
+    }
+  };
 
   return (
     <section className="w-11/12 mx-auto bg-base-300 px-4 my-10 rounded-md">
@@ -53,7 +69,10 @@ const ArtworkDetails = () => {
               Like
             </button>
 
-            <button className="rounded-lg hover:bg-purple-600 hover:text-white transition duration-200  px-6 py-3 cursor-pointer border border-purple-400">
+            <button
+              onClick={handleFavorite}
+              className="rounded-lg hover:bg-purple-600 hover:text-white transition duration-200  px-6 py-3 cursor-pointer border border-purple-400"
+            >
               Favorite
             </button>
           </div>

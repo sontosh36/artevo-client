@@ -98,11 +98,13 @@ const AddArtwork = () => {
                 placeholder="Medium"
                 required
               />
-              <label className="label text-md">Descriptions</label>
-              <input
+              <label className="label text-md">Description</label>
+              <textarea
                 type="text"
+                cols={10}
+                rows={3}
                 name="description"
-                className="input text-md w-full outline-0 focus:border-0"
+                className="text-md w-full p-2 resize-none border border-base-300 rounded-md focus:outline-0"
                 placeholder="description"
                 required
               />
