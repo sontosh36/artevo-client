@@ -19,6 +19,13 @@ const LogIn = () => {
       .then(() => {
         e.target.reset();
         navigate(location.state || "/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Welcome! You're logged in Successful.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((err) => {
         let errorMessage = "Something went wrong!";
@@ -48,6 +55,13 @@ const LogIn = () => {
   const handleSignInGoogle = () => {
     signInWithGoogle()
       .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Welcome! You're logged in Successful.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate(location.state || "/");
       })
       .catch((err) => {

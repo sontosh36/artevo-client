@@ -1,6 +1,7 @@
 import React, { use, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
   const { users, signOutUser } = use(AuthContext);
@@ -12,6 +13,13 @@ const NavBar = () => {
     signOutUser()
       .then(() => {
         setOpen(false);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Welcome back, Log Out Successful!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         console.log(error.message);
