@@ -6,13 +6,15 @@ import { AuthContext } from "../Context/AuthContext";
 const MyGallery = () => {
   const { users } = use(AuthContext);
   const [artwork, setArtwork] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (users?.email) {
-      fetch(`http://localhost:3000/my-artworks?email=${users.email}`)
+      fetch(`https://artevo-server.vercel.app/my-artworks?email=${users.email}`)
         .then((res) => res.json())
         .then((data) => {
           setArtwork(data);
+          setLoading(false);
         });
     }
   }, [users?.email]);
@@ -28,7 +30,7 @@ const MyGallery = () => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/artwork/${_id}`, {
+        fetch(`https://artevo-server.vercel.app/artwork/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -48,6 +50,11 @@ const MyGallery = () => {
       }
     });
   };
+  if (loading) {
+    <div className="max-w-7xl mx-auto col-span-full flex justify-center items-center py-20">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+    </div>;
+  }
   return (
     <div className="w-11/12 mx-auto py-10 bg-base-400">
       <h2 className="text-center font-bold text-3xl mb-5">My Gallery</h2>

@@ -6,7 +6,7 @@ import FeaturedArtists from "../Components/FeaturedArtists";
 
 const Home = () => {
   const featuredArtworksPromise = fetch(
-    "http://localhost:3000/featured-artworks",
+    "https://artevo-server.vercel.app/featured-artworks",
   ).then((res) => res.json());
   return (
     <div className="max-w-7xl mx-auto px-4">

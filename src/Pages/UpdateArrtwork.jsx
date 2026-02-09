@@ -3,10 +3,9 @@ import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const UpdateArrtwork = () => {
-  const singleArtwork = useLoaderData();
-  const { _id, title, category, medium, visibility, description } =
-    singleArtwork;
+  const artworks = useLoaderData();
   const navigate = useNavigate();
+  const { _id, title, category, medium, visibility, description } = artworks;
   const handleUpdateArtwork = (e) => {
     e.preventDefault();
 
@@ -16,7 +15,7 @@ const UpdateArrtwork = () => {
       medium: e.target.medium.value,
       description: e.target.description.value,
     };
-    fetch(`http://localhost:3000/artwork/${_id}`, {
+    fetch(`https://artevo-server.vercel.app/artwork/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

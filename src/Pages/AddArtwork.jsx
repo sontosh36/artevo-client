@@ -35,9 +35,10 @@ const AddArtwork = () => {
       totalArtwork: 11,
       likes: 0,
     };
-    fetch("http://localhost:3000/artworks", {
+    fetch("https://artevo-server.vercel.app/artworks", {
       method: "POST",
       headers: {
+        authorization: `Bearer ${users.accessToken}`,
         "content-type": "application/json",
       },
       body: JSON.stringify(newArtWork),

@@ -1,9 +1,25 @@
-import React from "react";
-import { useLoaderData } from "react-router";
+import React, { use, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "../Context/AuthContext";
+import { useParams } from "react-router";
 
 const ArtworkDetails = () => {
-  const artworkData = useLoaderData();
+  const [artworks, setArtworks] = useState({});
+  const [loading, setLoading] = useState(true);
+  const { users } = use(AuthContext);
+  const { id } = useParams();
+  useEffect(() => {
+    fetch(`https://artevo-server.vercel.app/artwork/${id}`, {
+      headers: {
+        authorization: `Bearer ${users.accessToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setArtworks(data);
+        setLoading(false);
+      });
+  }, [users, id]);
   const {
     title,
     imageURL,
@@ -14,37 +30,36 @@ const ArtworkDetails = () => {
     artistPhoto,
     medium,
     likes,
-  } = artworkData;
+  } = artworks;
 
   const handleFavorite = () => {
-    const prevFavorites =
-      JSON.parse(localStorage.getItem("favorites")) || [];
-    const isAlreadyAdded = prevFavorites.find(
-      (item) => item.title === title,
-    );
+    const prevFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const isAlreadyAdded = prevFavorites.find((item) => item.title === title);
     if (!isAlreadyAdded) {
-      prevFavorites.push(artworkData);
+      prevFavorites.push(artworks);
       localStorage.setItem("favorites", JSON.stringify(prevFavorites));
       toast.success("Added to Favorite");
     } else {
       toast.warn("Already in Favorite!");
     }
   };
-
+  if (loading) {
+    <div className="max-w-7xl mx-auto col-span-full flex justify-center items-center py-20">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+    </div>;
+  }
   return (
     <section className="w-11/12 mx-auto bg-base-300 px-4 my-10 rounded-md">
-      {/* Artwork + Info */}
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 py-7">
-        {/* Artwork Image */}
+        {/* artwork image */}
         <div className="overflow-hidden rounded-2xl bg-neutral-100 shadow">
           <img
             src={imageURL}
             alt={title}
-            className="h-80 w-200 object-fill transition-transform duration-300 hover:scale-105"
+            className="h-80 w-200 object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>
-
-        {/* Artwork Info */}
+        {/* artwork info */}
         <div className="flex flex-col">
           <h1 className="text-center md:text-left text-3xl font-semibold md:text-4xl pb-6 border-b mb-4">
             {title}
@@ -63,7 +78,7 @@ const ArtworkDetails = () => {
             <p className="text-sm leading-relaxed">{description}</p>
           </div>
           <p>Like: {likes}</p>
-          {/* Actions */}
+          {/* actions */}
           <div className="mt-4 flex flex-wrap justify-center md:justify-start gap-10 md:gap-4">
             <button className="rounded-lg bg-purple-600 text-white px-6 py-3 cursor-pointer">
               Like
@@ -78,8 +93,7 @@ const ArtworkDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Artist Card */}
+      {/* artist info */}
       <div className="mt-10 flex flex-col items-center gap-6 rounded-2xl p-6 md:flex-row md:items-start bg-gray-400">
         <img
           src={artistPhoto}

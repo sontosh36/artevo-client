@@ -139,17 +139,17 @@ const NavBar = () => {
                 />
                 {/* dropdown */}
                 <div
-                  className={`absolute right-0 w-50 md:w-58 bg-white shadow-lg rounded-md z-50  ${open ? "opacity-100 visible " : "opacity-0 invisible "}`}
+                  className={`absolute p-2 right-0 w-50 md:w-58 bg-base-300 shadow-lg rounded-md z-50  ${open ? "opacity-100 visible " : "opacity-0 invisible "}`}
                 >
                   {/* display name */}
-                  <div className="px-2 py-2 border-b">
-                    <p className="text-sm font-semibold text-gray-700">
+                  <div className="px-2 py-2 border-b border-base-100">
+                    <p className="text-sm font-medium text-base-400">
                       {users?.displayName || "User"}
                     </p>
                   </div>
                   {/* email*/}
-                  <div className="px-2 py-2 w-full border-b">
-                    <p className="text-sm text-gray-700">
+                  <div className="px-2 py-2 w-full border-b border-base-100">
+                    <p className="text-sm font-medium text-base-400">
                       {users?.email || "example@gmail.com"}
                     </p>
                   </div>
@@ -158,14 +158,14 @@ const NavBar = () => {
                   <Link
                     to={"/myFavorites"}
                     onClick={() => setOpen(false)}
-                    className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-2 py-2 text-sm font-medium text-base-400"
                   >
                     My Favorite
                   </Link>
                   {/* log out */}
                   <button
                     onClick={handleLogOut}
-                    className="w-full flex justify-center gap-2 px-4 py-2 text-sm text-white bg-blue-500 hover:bg-blue-400"
+                    className="w-full flex justify-center gap-2 px-4 py-4 text-sm text-white bg-blue-500 hover:bg-blue-400 rounded-lg"
                   >
                     Log Out
                   </button>

@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
       {
         path: "exploreArtwork",
         Component: ExploreArtwork,
-        loader: () => fetch('http://localhost:3000/artworks')
+        loader: () => fetch("https://artevo-server.vercel.app/artworks"),
       },
       {
         path: "addArtwork",
@@ -52,17 +52,17 @@ export const router = createBrowserRouter([
       },
       {
         path: "artworkDetails/:id",
-        loader: ({params}) => fetch(`http://localhost:3000/artwork/${params.id}`),
-        element:(
+        element: (
           <PrivateRoute>
-            <ArtworkDetails/>
+            <ArtworkDetails />
           </PrivateRoute>
-        )
+        ),
       },
       {
         path: "/update-artwork/:id",
         Component: UpdateArrtwork,
-        loader: ({params}) => fetch(`http://localhost:3000/artwork/${params.id}`)
+        loader: ({ params }) =>
+          fetch(`https://artevo-server.vercel.app/artwork/${params.id}`),
       },
       {
         path: "login",
